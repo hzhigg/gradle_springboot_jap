@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.dome.user.entity.User;
-import com.dome.user.mapper.UserMapper;
+import com.dome.user.entity.WebUser;
+import com.dome.user.mapper.WebUserMapper;
 
 
 @RunWith(SpringRunner.class)
@@ -17,12 +17,12 @@ import com.dome.user.mapper.UserMapper;
 public class SpringbootJpaDemoApplicationTests {
 
 	@Autowired
-	private UserMapper userMapper;
+	private WebUserMapper webUserMapper;
 
 	@Test
 	public void contextLoads(){
 		@SuppressWarnings("unused")
-		List<User> user=userMapper.findAll();
+		List<WebUser> user=webUserMapper.findAll();
 		System.out.println("11");
 	}
 }

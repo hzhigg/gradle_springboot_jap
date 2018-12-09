@@ -2,8 +2,6 @@ package com.dome.user.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,39 +10,39 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
-import com.dome.user.entity.User;
-import com.dome.user.service.UserService;
+import com.dome.base.controller.BaseController;
+import com.dome.user.entity.WebUser;
+import com.dome.user.service.WebUserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value="用户服务",tags={"用户服务"})
+@Api(value="web用户服务",tags={"web用户服务"})
 @RestController
-@RequestMapping("/user")
-public class UserController {
-	private Logger logger=LoggerFactory.getLogger(UserController.class);
+@RequestMapping("/web/user")
+public class WebUserController extends BaseController{
+	
 
 	@Autowired
-	private UserService userService;
+	private WebUserService webUserService;
 	
 	
 	@ApiOperation("根据id获取用户")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name="id",value="id",dataType="Integer"),
-		@ApiImplicitParam(name="name",value="姓名",dataType="String")
+		@ApiImplicitParam(name="id",value="id",dataType="Integer")
 	})
 	@GetMapping("/get")
-	public String get(@RequestParam Integer id,@RequestParam(required=false)String name){
-		User user=userService.get(id);
+	public String get(@RequestParam Long id){
+		WebUser user=webUserService.get(id);;
 		return JSON.toJSONString(user);
 	}
 	
 	@ApiOperation("获取所有用户")
 	@GetMapping("/findAll")
 	public String findAll(){
-		List<User> user=userService.findAll();
+		List<WebUser> user=webUserService.findAll();
 		return JSON.toJSONString(user);
 	}
 	
@@ -58,7 +56,7 @@ public class UserController {
 		if(page<=0){
 			return "参数错误";
 		}
-		Page<User> result=userService.pageUser(page-1, size);
+		Page<WebUser> result=webUserService.pageUser(page-1, size);
 		return JSON.toJSONString(result);
 	}
 	
@@ -73,10 +71,29 @@ public class UserController {
 		if(page<=0){
 			return "参数错误";
 		}
-		User user=new User();
+		WebUser user=new WebUser();
 		user.setUserName(userName);
-		Page<User> result=userService.pageUserParam(page-1, size, user);
-		return  JSON.toJSONString(result);
+		Page<WebUser> result=webUserService.pageUserParam(page-1, size, user);
+		return JSON.toJSONString(result);
+	}
+	
+	@ApiOperation("原生sql查询")
+	@GetMapping("/nativeQuery")
+	public String nativeQuery(@RequestParam String userName){
+		List<WebUser> result=webUserService.nativeQuery(userName);
+		return JSON.toJSONString(result);
+	}
+	
+	/**
+	 * @Query 注解原生sql查询
+	 * @param userName
+	 * @return
+	 */
+	@ApiOperation("注解原生sql查询")
+	@GetMapping("/findByKeyNameLimit")
+	public String findByKeyNameLimit(String userName){
+		List<WebUser> result= webUserService.findByKeyNameLimit(userName);
+		return JSON.toJSONString(result);
 	}
 	
 }

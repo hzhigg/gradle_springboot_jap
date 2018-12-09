@@ -1,7 +1,7 @@
 package com.dome.user.entity;
 
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,9 +15,7 @@ import com.dome.base.entity.BaseEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 
 /**
@@ -45,11 +43,6 @@ public class WebUser extends BaseEntity{
 	@JSONField(ordinal=1) 
 	@Column(length=32,name="nickName",columnDefinition="varchar(32) default '' comment '昵称'")
 	private String nickName; //昵称
-	
-	@JSONField(ordinal=2) 
-	@Column(length=32,name="wxId",columnDefinition="varchar(32) unique default '' comment '微信号'")
-	private String wxId; //微信ID
-	
 
 	@JSONField(ordinal=1)
 	@Column(length=32,name="userName",nullable=false,columnDefinition="varchar(32) unique default ''  comment '用户名'")
@@ -63,17 +56,9 @@ public class WebUser extends BaseEntity{
 	@Column(length=64,name="email",nullable=false,columnDefinition="varchar(64) unique default '' comment '邮箱'")
 	protected String email; //邮箱号
 	
-	@JSONField(ordinal=4) 
-	@Column(length=11,name="phoneNo",nullable=false,columnDefinition="varchar(11) unique default '' comment '电话号码'")
-	protected String phoneNo; //手机号
-	
-	@JSONField(ordinal=5)
-	@Column(length=32,name="realName",nullable=false,columnDefinition="varchar(32) default '' comment '真实姓名'")
-	protected String realName; //真实姓名
-	
-	@JSONField(ordinal=3) @Getter @Setter 
+	@JSONField(ordinal=3) 
 	@OneToMany(mappedBy="webUser",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-	private Set<Address> addresses;
+	private List<Address> addresses;
 	
 	public WebUser(String username) {
 		this.userName = username;

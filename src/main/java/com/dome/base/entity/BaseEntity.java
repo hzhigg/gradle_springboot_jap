@@ -27,7 +27,7 @@ public abstract class BaseEntity implements Serializable{
 	@JSONField(ordinal=1) 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id",columnDefinition="BIGINT(30) comment '无意义自增主键'")
-	protected Integer id; //无意义自增主键
+	protected Long id; //无意义自增主键
  
 	@JSONField(ordinal=2,format="yyyy-MM-dd HH:mm:ss") 
 	@Column(name="createTime",columnDefinition="DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP comment '创建时间'")
@@ -38,7 +38,7 @@ public abstract class BaseEntity implements Serializable{
 	protected Date updateTime; //销毁时间
 	
 	@JSONField(ordinal=4) 
-	@Version @Column(name="version",nullable=false,columnDefinition="int(20) NOT NULL 0 comment '版本号'")
+	@Version @Column(name="version",nullable=false,columnDefinition="int(20) NOT NULL DEFAULT 0 comment '版本号'")
 	protected Integer version;
 	
 	@JSONField(ordinal=5) 
